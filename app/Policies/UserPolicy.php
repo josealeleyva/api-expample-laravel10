@@ -15,7 +15,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -25,7 +25,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -35,7 +35,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo("Store " . self::resource, 'web')
+        return $user->hasPermissionTo("Crear " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Crear ' . self::resource);
     }
@@ -45,7 +45,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->hasPermissionTo("Update " . self::resource, 'web')
+        return $user->hasPermissionTo("Actualizar " . self::resource, 'web')
             ? $this->allow()
             : ($user->id == $model->id ? $this->allow() : $this->deny('No tiene permiso para Editar ' . self::resource));
     }
@@ -55,19 +55,9 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->hasPermissionTo("Destroy " . self::resource, 'web')
+        return $user->hasPermissionTo("Eliminar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Eliminar ' . self::resource);
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function updateRole(User $user, User $model)
-    {
-        return $user->hasPermissionTo("Update role " . self::resource, 'web')
-            ? $this->allow()
-            : $this->deny('No tiene permiso para Editar roles de ' . self::resource);
     }
 
     /**
