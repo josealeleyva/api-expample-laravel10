@@ -31,7 +31,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 //RUTAS AUTENICADAS
-$router->group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Permisos
     Route::post('permisos/asignar/{permission}', [PermissionController::class, 'assign']);

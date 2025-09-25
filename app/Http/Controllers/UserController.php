@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Clases\App;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -38,7 +37,7 @@ class UserController extends Controller
             'items' => 'numeric|sometimes',
         ]);
 
-        $cantItems = $request->items ? $request->items : App::NUM_ITEMS_PAGE;
+        $cantItems = $request->items ? $request->items : config('app_settings.items_per_page');
 
         $listBD = User::orderBy('email', 'asc')
             ->when($request->rol_id != null, function ($query) use ($request) {
@@ -48,8 +47,8 @@ class UserController extends Controller
             })
             ->when($request->email != null, function ($query) use ($request) {
                 $query->where('email', 'LIKE', "%{$request->email}%");
-            })->when($request->nombre != null, function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->nombre}%");
+            })->when($request->name != null, function ($query) use ($request) {
+                $query->where('name', 'LIKE', "%{$request->name}%");
             })->paginate($cantItems);
 
         return response()->json($listBD, Response::HTTP_OK);
@@ -75,8 +74,6 @@ class UserController extends Controller
         if ($request->has('rol_id')) {
             $user->assignRole(Role::find($request->rol_id));
         }
-
-        $user->crearUserMicroserv($request->password);
 
         return response()->json($user, Response::HTTP_CREATED);
     }
