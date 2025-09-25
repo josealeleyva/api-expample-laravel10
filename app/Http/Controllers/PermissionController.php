@@ -35,11 +35,6 @@ class PermissionController extends Controller
 
         //Permisos existentes agrupados por grupo
         $permissionBD = Permission::select('id', 'group', 'name', 'description')
-            ->when($role !== null, function ($query) use ($role) {
-                $query->whereHas('roles', function ($query) use ($role) {
-                    $query->where('roles.id', $role->id);
-                });
-            })
             ->orderBy('group', 'ASC')
             ->orderBy('name', 'ASC')
             ->get();

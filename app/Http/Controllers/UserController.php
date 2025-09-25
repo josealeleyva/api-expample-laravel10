@@ -35,6 +35,10 @@ class UserController extends Controller
             'rol_id' => 'numeric|sometimes',
             // Example: 10
             'items' => 'numeric|sometimes',
+            // Example: asc
+            'order_dir' => 'in:asc,desc|sometimes',
+            //Example: created_at
+            'order_by' => 'in:name,email,created_at,updated_at|sometimes',
         ]);
 
         $cantItems = $request->items ? $request->items : config('app_settings.items_per_page');
@@ -67,7 +71,7 @@ class UserController extends Controller
             'rol_id' => ['numeric', 'sometimes'],
         ]);
 
-        $user = User::create($request->all());
+        $user = User::create($request->only(['name', 'email']));
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -104,7 +108,7 @@ class UserController extends Controller
             'rol_id' => ['numeric', 'sometimes'],
         ]);
 
-        $user->update($request->all());
+        $user->update($request->only(['name', 'email']));
 
         if ($request->has('password')) {
             $user->password = Hash::make($request->input('password'));
