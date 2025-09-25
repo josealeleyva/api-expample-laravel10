@@ -15,7 +15,7 @@ class PermissionPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -25,7 +25,7 @@ class PermissionPolicy
      */
     public function view(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -35,7 +35,7 @@ class PermissionPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo("Store " . self::resource, 'web')
+        return $user->hasPermissionTo("Crear " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Crear ' . self::resource);
     }
@@ -45,7 +45,7 @@ class PermissionPolicy
      */
     public function update(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo("Update " . self::resource, 'web')
+        return $user->hasPermissionTo("Actualizar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Editar ' . self::resource);
     }
@@ -55,7 +55,7 @@ class PermissionPolicy
      */
     public function delete(User $user, Permission $permission)
     {
-        return $user->hasPermissionTo("Destroy " . self::resource, 'web')
+        return $user->hasPermissionTo("Eliminar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Eliminar ' . self::resource);
     }
@@ -78,15 +78,15 @@ class PermissionPolicy
 
     public function assign(User $user)
     {
-        return $user->hasPermissionTo("Assign " . self::resource, 'web')
+        return $user->hasPermissionTo("Asignar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Asignar ' . self::resource);
     }
 
     public function denyPolicy(User $user)
     {
-        return $user->hasPermissionTo("Deny " . self::resource, 'web')
+        return $user->hasPermissionTo("Quitar " . self::resource, 'web')
             ? $this->allow()
-            : $this->deny('No tiene permiso para Denegar ' . self::resource);
+            : $this->deny('No tiene permiso para Quitar ' . self::resource);
     }
 }
