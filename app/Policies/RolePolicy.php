@@ -16,7 +16,7 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -26,7 +26,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        return $user->hasPermissionTo("View " . self::resource, 'web')
+        return $user->hasPermissionTo("Ver " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para ver ' . self::resource);
     }
@@ -36,7 +36,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermissionTo("Store " . self::resource, 'web')
+        return $user->hasPermissionTo("Crear " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Crear ' . self::resource);
     }
@@ -46,7 +46,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        return $user->hasPermissionTo("Update " . self::resource, 'web')
+        return $user->hasPermissionTo("Actualizar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Editar ' . self::resource);
     }
@@ -56,7 +56,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        return $user->hasPermissionTo("Destroy " . self::resource, 'web')
+        return $user->hasPermissionTo("Eliminar " . self::resource, 'web')
             ? $this->allow()
             : $this->deny('No tiene permiso para Eliminar ' . self::resource);
     }
