@@ -3,73 +3,55 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermisosSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //CREANDO PERMISOS
-        //-----------------------------------------------------------------------------------
-        //Users
-        $resource = 'users';
-        $permisos = collect([
-            ['name' => "View {$resource}"],
-            ['name' => "Store {$resource}"],
-            ['name' => "Update {$resource}"],
-            ['name' => "Update role {$resource}"],
-            ['name' => "Destroy {$resource}"],
-        ]);
-        $permisos->each(function ($permiso) use ($resource) {
-            $permiso['group'] = $resource;
-            if (!\Spatie\Permission\Models\Permission::where('name', $permiso['name'])->exists())
-                Permission::create($permiso);
-        });
+        $role = Role::findByName('Superadministrador');
 
-        //Asignando permisos
-        Role::findByName('Superadministrador')->givePermissionTo($permisos);
+        $recursos = [
+            'users' => [
+                'Ver',
+                'Crear',
+                'Actualizar',
+                'Actualizar rol',
+                'Eliminar'
+            ],
+            'roles' => [
+                'Ver',
+                'Crear',
+                'Actualizar',
+                'Eliminar'
+            ],
+            'permisos' => [
+                'Ver',
+                'Crear',
+                'Actualizar',
+                'Eliminar',
+                'Asignar',
+                'Quitar',
+            ]
+        ];
 
-       
-        //-----------------------------------------------------------------------------------
-        //roles
-        $resource = 'roles';
-        $permisos = collect([
-            ['name' => "View {$resource}"],
-            ['name' => "Store {$resource}"],
-            ['name' => "Update {$resource}"],
-            ['name' => "Destroy {$resource}"],
-        ]);
-        $permisos->each(function ($permiso) use ($resource) {
-            $permiso['group'] = $resource;
-            if (!\Spatie\Permission\Models\Permission::where('name', $permiso['name'])->exists())
-                Permission::create($permiso);
-        });
+        foreach ($recursos as $recurso => $acciones) {
+            $permisos = collect();
 
-        //Asignando permisos
-        Role::findByName('Superadministrador')->givePermissionTo($permisos);
+            foreach ($acciones as $accion) {
+                $nombre = "{$accion} {$recurso}";
+                if (!Permission::where('name', $nombre)->exists()) {
+                    $permisos->push(Permission::create([
+                        'name' => $nombre,
+                        'group' => $recurso,
+                    ]));
+                } else {
+                    $permisos->push(Permission::where('name', $nombre)->first());
+                }
+            }
 
-        //-----------------------------------------------------------------------------------
-        //permisos
-        $resource = 'permisos';
-        $permisos = collect([
-            ['name' => "View {$resource}"],
-            ['name' => "Store {$resource}"],
-            ['name' => "Update {$resource}"],
-            ['name' => "Destroy {$resource}"],
-            ['name' => "Assign {$resource}"],
-            ['name' => "Deny {$resource}"],
-        ]);
-        $permisos->each(function ($permiso) use ($resource) {
-            $permiso['group'] = $resource;
-            if (!\Spatie\Permission\Models\Permission::where('name', $permiso['name'])->exists())
-                Permission::create($permiso);
-        });
-
-        //Asignando permisos
-        Role::findByName('Superadministrador')->givePermissionTo($permisos);
+            $role->givePermissionTo($permisos);
+        }
     }
 }
